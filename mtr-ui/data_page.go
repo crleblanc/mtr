@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/GeoNet/mtr/mtrpb"
 	"github.com/GeoNet/weft"
 	"github.com/golang/protobuf/proto"
@@ -163,9 +164,11 @@ func dataPlotPageHandler(r *http.Request, h http.Header, b *bytes.Buffer) *weft.
 	}
 
 	if f.Result != nil && len(f.Result) >= 1 {
-		p.Thresholds = []int32{f.Result[0].Lower, f.Result[0].Upper}
+		thresholds := f.Result[0]
+		p.Thresholds = []float64{float64(thresholds.Lower) * thresholds.Scale, float64(thresholds.Upper) * thresholds.Scale}
+		fmt.Println("DEBUG", thresholds)
 	} else {
-		p.Thresholds = []int32{0, 0}
+		p.Thresholds = []float64{0.0, 0.0}
 	}
 
 	if err := dataTemplate.ExecuteTemplate(b, "border", p); err != nil {

@@ -21,7 +21,7 @@ type mtrUiPage struct {
 	Status        string
 	MtrApiUrl     string
 	Resolution    string
-	Thresholds    []int32
+	Thresholds    []float64
 	Tags          []string
 	fieldResult   []*mtrpb.FieldMetricSummary
 	dataResult    []*mtrpb.DataLatencySummary

@@ -163,14 +163,15 @@ func fieldPlotPageHandler(r *http.Request, h http.Header, b *bytes.Buffer) *weft
 
 	// TODO: use this simpler logic when mtr-api accepts deviceID and typeID
 	////if f.Result != nil && len(f.Result) >= 1 {
-	////      p.Thresholds = []int32{f.Result[0].Lower, f.Result[0].Upper}
+	////      thresholds := f.Result[0]
+	////      p.Thresholds = []float64{float64(thresholds.Lower) * thresholds.Scale, float64(thresholds.Upper) * thresholds.Scale}
 	////} else {
-	////      p.Thresholds = []int32{0, 0}
+	////      p.Thresholds = []float64{0.0, 0.0}
 	////}
 	if f.Result != nil {
 		for _, row := range f.Result {
 			if row.DeviceID == p.DeviceID && row.TypeID == p.TypeID {
-				p.Thresholds = []int32{row.Lower, row.Upper}
+				p.Thresholds = []float64{float64(row.Lower) * row.Scale, float64(row.Upper) * row.Scale}
 			}
 		}
 	}
