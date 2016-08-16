@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/GeoNet/mtr/mtrpb"
 	"github.com/GeoNet/weft"
 	"github.com/golang/protobuf/proto"
@@ -473,7 +474,7 @@ func (p *mtrUiPage) getFieldYLabel() (err error) {
 		}
 	}
 
-	return
+	return fmt.Errorf("TypeID not found: %s", p.TypeID)
 }
 
 func (p mtrUiPage) filterFieldResults(f []*mtrpb.FieldMetricSummary) []*mtrpb.FieldMetricSummary {
