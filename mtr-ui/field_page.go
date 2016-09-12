@@ -191,7 +191,7 @@ func getFieldSummary() (p panel, err error) {
 		return
 	}
 
-	p.Title = "Fields"
+	p.Title = "Field"
 	p.StatusLink = "/field/metrics?"
 	m := make(map[string]idCount, 0)
 

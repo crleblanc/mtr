@@ -130,12 +130,12 @@
 {{end}}
 
 {{define "app_ids"}}
-<div class="row">
-{{range .AppIDs}}
-    <div class="col-xs-12 col-md-12">
+<div class="row" style="margin-top:20px;">
+    {{ range .AppIDs }}
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
         <a href="/app/plot?applicationID={{.ID}}">{{.ID}}</a>
     </div>
-{{end}}
+    {{end}}
 </div>
 {{end}}
 
@@ -161,7 +161,7 @@
                     "use strict";
 
                     var graphOptions = {
-                         title: 'Field Metrics (deviceID: {{urlquery .DeviceID}}, typeID: {{urlquery .TypeID}})',
+                         title: 'DeviceID: {{urlquery .DeviceID}}, TypeID: {{urlquery .TypeID}}',
                          //connectSeparatedPoints: true,
                          xlabel: 'Date (UTC)',
                          ylabel: 'Units: {{.Plt.Ylabel}}, {{if .Plt.Thresholds}} thresholds: [{{index .Plt.Thresholds 0}} - {{index .Plt.Thresholds 1}}]{{end}}',
@@ -212,7 +212,7 @@
 
             var csvUrl = "/p/data/latency?siteID={{urlquery .SiteID}}&typeID={{urlquery .TypeID}}";
             var graphOptions = {
-                 title: 'Data Latency (siteID: {{urlquery .SiteID}}, typeID: {{urlquery .TypeID}})',
+                 title: 'SiteID: {{urlquery .SiteID}}, TypeID: {{urlquery .TypeID}}',
                  //connectSeparatedPoints: true,
                  xlabel: 'Date (UTC)',
                  ylabel: 'Units: {{.Plt.Ylabel}}, {{if .Plt.Thresholds}}Thresholds: [{{index .Plt.Thresholds 0}}, {{index .Plt.Thresholds 1}}]{{end}}',
