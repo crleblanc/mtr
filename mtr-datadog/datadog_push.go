@@ -71,8 +71,9 @@ func getMetrics() (*mtrpb.DataLatencyResult, error) {
 	return &f, nil
 }
 
-// push metrics to the DataDog API and see what happens. Example from https://godoc.org/github.com/DataDog/datadog-go/statsd:
-// Can't control the timestamp of metrics using statsd package, but could do it using the API: http://docs.datadoghq.com/api/
+// push (mostly fake) metrics to the DataDog API and see what happens. Example from https://godoc.org/github.com/DataDog/datadog-go/statsd:
+// Can't control the timestamp of metrics using statsd package, but could do it using the API: http://docs.datadoghq.com/api/.
+// This isn't such a big deal anyway, they should come in pretty quick.
 func dataDogPush(data *mtrpb.DataLatencyResult) error {
 	// Create the client
 	//c, err := statsd.NewBuffered("127.0.0.1:8125", 100)
@@ -89,11 +90,20 @@ func dataDogPush(data *mtrpb.DataLatencyResult) error {
 	i := 0
 	for {
 		i = i % len(data.Result)
-		fmt.Println("About to send a metric", data.Result[i].Mean)
-		if err = c.Gauge("latency", float64(data.Result[i].Mean), nil, 1); err != nil {
+		fmt.Println("About to send metrics", data.Result[i].Mean)
+		if err = c.Gauge("latency.mean", float64(data.Result[i].Mean), nil, 1); err != nil {
 			return err
 		}
-		fmt.Println("  sent a metric!")
+
+		if err = c.Gauge("latency.fifty", float64(data.Result[i].Fifty), nil, 1); err != nil {
+			return err
+		}
+
+		if err = c.Gauge("latency.ninety", float64(data.Result[i].Ninety), nil, 1); err != nil {
+			return err
+		}
+
+		fmt.Println("  sent metrics!")
 		time.Sleep(time.Minute)
 		i++
 	}
